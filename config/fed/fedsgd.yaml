@@ -1,0 +1,3 @@
+fed:
+  type: fedsgd
+  classname: FedSGD

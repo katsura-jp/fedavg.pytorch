@@ -1,0 +1,7 @@
+model:
+  type: mlp
+  classname: MLP
+  args:
+    in_features: 784
+    num_classes: 10
+    hidden_dim: 200
