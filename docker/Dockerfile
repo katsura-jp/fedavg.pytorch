@@ -24,8 +24,6 @@ ENV PYTHON_VERSION 3.7.6
 RUN pyenv install ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
 
 RUN pip install -U pip setuptools
-# for pycocotools
-RUN pip install Cython==0.29.1 numpy==1.15.4
 
 COPY requirements/requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
