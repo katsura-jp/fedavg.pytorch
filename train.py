@@ -1,5 +1,6 @@
 import os
 import logging
+import pickle
 
 log = logging.getLogger(__name__)
 
@@ -35,7 +36,9 @@ def main(cfg: DictConfig):
                                         writer=writer)
 
     federater.fit(cfg.n_round)
-    pass
+
+    with open(os.path.join(cfg.savedir, "result.pkl"), "wb") as f:
+        pickle.dump(federater.result, f)
 
 
 if __name__ == "__main__":

@@ -33,7 +33,8 @@ $ python train.py n_round=100 C=0.3
 
 
 ## TODOs
-- [ ] GPU training
+- [x] GPU training
+- [ ] MultiProcessing Training
 - [ ] add FedSGD
 - [ ] CIFAR-10 experiment
 - [ ] write original peformance

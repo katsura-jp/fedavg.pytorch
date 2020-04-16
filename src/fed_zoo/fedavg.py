@@ -58,9 +58,11 @@ class FedAvg(FedBase):
         self.writer = writer
 
         self._round = 0
+        self.result = None
 
     def fit(self, num_round):
         self._round = 0
+        self.result = {'loss': [], 'accuracy': []}
         self.validation_step()
         for t in range(num_round):
             self._round = t + 1
@@ -88,3 +90,6 @@ class FedAvg(FedBase):
         if self.writer is not None:
             self.writer.add_scalar("val/loss", test_loss, self._round)
             self.writer.add_scalar("val/accuracy", accuracy, self._round)
+
+        self.result['loss'].append(test_loss)
+        self.result['accuracy'].append(accuracy)
