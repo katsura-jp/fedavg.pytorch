@@ -1,29 +1,35 @@
 import os
 import logging
 
+log = logging.getLogger(__name__)
+
 import torch
 import hydra
 from omegaconf import DictConfig
+from torch.optim import *
 
 from src.models import *
 from src.fed_zoo import *
 from src.utils import *
 from src.utils.data import get_mnist_data
 
-# @hydra.main(config_path="./config/config.yaml", strict=True)
-# def main(cfg: DictConfig):
-def main():
-    model = MLP(784, 10, 200)
+@hydra.main(config_path="./config/config.yaml", strict=True)
+def main(cfg: DictConfig):
+    os.chdir(cfg.root)
+    log.info("\n" + cfg.pretty())
 
-    federater = FedAvg(model,
-                       optimizer=torch.optim.SGD,
-                       optimizer_args={'lr': 0.01},
-                       num_clients=100,
-                       batchsize=50,
-                       fraction=0.1,
-                       local_epoch=4)
+    model = eval(cfg.model.classname)(**cfg.model.args)
 
-    federater.fit(10)
+    federater = eval(cfg.fed.classname)(
+                        model=model,
+                        optimizer=eval(cfg.optim.classname),
+                        optimizer_args=cfg.optim.args,
+                        num_clients=cfg.K,
+                        batchsize=cfg.B,
+                        fraction=cfg.C,
+                        local_epoch=cfg.E)
+
+    federater.fit(cfg.n_round)
     pass
 
 

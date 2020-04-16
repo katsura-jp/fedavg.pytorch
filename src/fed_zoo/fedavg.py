@@ -1,5 +1,5 @@
-import copy
-from collections import OrderedDict
+import logging
+log = logging.getLogger(__name__)
 
 import torch
 import numpy as np
@@ -33,8 +33,13 @@ class FedAvg(FedBase):
 
         self.loss_fn = CrossEntropyLoss()
 
+        self._round = 0
+
     def fit(self, num_round):
+        self._round = 0
+        self.validation_step()
         for t in range(num_round):
+            self._round = t + 1
             self.train_step()
             self.validation_step()
 
@@ -42,7 +47,7 @@ class FedAvg(FedBase):
         self.send_model()
         n_sample = max(int(self.fraction * self.num_clients), 1)
         sample_set = np.random.randint(0, self.num_clients, n_sample)
-        for k in sample_set:
+        for k in iter(sample_set):
             self.clients[k].client_update(self.optimizer, self.optimizer_args, self.local_epoch, self.loss_fn)
         self.center_server.aggregation(self.clients, self.aggregation_weights)
 
@@ -53,4 +58,4 @@ class FedAvg(FedBase):
 
     def validation_step(self):
         test_loss, accuracy = self.center_server.validation(self.loss_fn)
-        print(f"Test set: Average loss: {test_loss:.4f}, Accuracy: {accuracy:.2f}%")
+        log.info(f"[Round: {self._round: 04}] Test set: Average loss: {test_loss:.4f}, Accuracy: {accuracy:.2f}%")
