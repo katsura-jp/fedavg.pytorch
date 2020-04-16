@@ -29,6 +29,7 @@ def main(cfg: DictConfig):
                                         batchsize=cfg.B,
                                         fraction=cfg.C,
                                         local_epoch=cfg.E,
+                                        iid=cfg.iid,
                                         writer=writer)
 
     federater.fit(cfg.n_round)

@@ -20,6 +20,7 @@ class FedAvg(FedBase):
                  batchsize=50,
                  fraction=1,
                  local_epoch=1,
+                 iid=False,
                  writer=None):
         self.optimizer = optimizer
         self.optimizer_args = optimizer_args
@@ -30,7 +31,7 @@ class FedAvg(FedBase):
         self.local_epoch = local_epoch  # E
 
         local_datasets, test_dataset = self.create_mnist_datasets(
-            num_clients, shard_size=300, iid=False)
+            num_clients, shard_size=300, iid=iid)
         local_dataloaders = [
             DataLoader(dataset,
                        num_workers=0,

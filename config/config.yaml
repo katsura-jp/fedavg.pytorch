@@ -8,6 +8,7 @@ E: 5
 K: 100
 C: 0.1
 B: 50
+iid: False
 
 root: ${env:PWD}
 savedir: ${env:PWD}/output/${fed.type}/${now:%Y-%m-%d_%H-%M-%S}
