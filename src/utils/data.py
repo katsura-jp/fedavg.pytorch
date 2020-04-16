@@ -4,6 +4,7 @@ import urllib.request
 import gzip
 import numpy as np
 
+
 def get_mnist_data(datadir):
     dataroot = 'http://yann.lecun.com/exdb/mnist/'
     key_file = {
@@ -18,7 +19,8 @@ def get_mnist_data(datadir):
         if ops.exists(ops.join(datadir, filename)):
             print(f"already downloaded : {filename}")
         else:
-            urllib.request.urlretrieve(ops.join(dataroot, filename), ops.join(datadir, filename))
+            urllib.request.urlretrieve(ops.join(dataroot, filename),
+                                       ops.join(datadir, filename))
 
     with gzip.open(ops.join(datadir, key_file["train_img"]), "rb") as f:
         train_img = np.frombuffer(f.read(), np.uint8, offset=16)

@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 import torch
 
+
 class CenterServer:
     def __init__(self, model, dataloader):
         self.model = model
@@ -25,13 +26,15 @@ class FedAvgCenterServer(CenterServer):
     def aggregation(self, clients, aggregation_weights):
         update_state = OrderedDict()
 
-        for k,  client in enumerate(clients):
+        for k, client in enumerate(clients):
             local_state = client.model.state_dict()
             for key in self.model.state_dict().keys():
                 if k == 0:
-                    update_state[key] = local_state[key] * aggregation_weights[k]
+                    update_state[
+                        key] = local_state[key] * aggregation_weights[k]
                 else:
-                    update_state[key] += local_state[key] * aggregation_weights[k]
+                    update_state[
+                        key] += local_state[key] * aggregation_weights[k]
 
         self.model.load_state_dict(update_state)
 
@@ -50,4 +53,3 @@ class FedAvgCenterServer(CenterServer):
         accuracy = 100. * correct / len(self.dataloader.dataset)
 
         return test_loss, accuracy
-

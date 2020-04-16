@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 
+
 class MnistLocalDataset(Dataset):
     def __init__(self, images, labels, client_id):
         self.images = images
@@ -10,7 +11,7 @@ class MnistLocalDataset(Dataset):
         self.client_id = client_id
         self.transform = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
+            transforms.Normalize((0.1307, ), (0.3081, ))
         ])
 
     def __getitem__(self, index):
