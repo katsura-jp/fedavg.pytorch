@@ -18,6 +18,7 @@ from src.utils.data import get_mnist_data
 @hydra.main(config_path="./config/config.yaml", strict=True)
 def main(cfg: DictConfig):
     os.chdir(cfg.root)
+    seed_everything(cfg.seed)
     log.info("\n" + cfg.pretty())
 
     model = eval(cfg.model.classname)(**cfg.model.args)

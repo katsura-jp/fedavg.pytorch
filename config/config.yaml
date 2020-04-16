@@ -10,6 +10,8 @@ C: 0.1
 B: 50
 iid: False
 
+seed: 2020
+
 root: ${env:PWD}
 savedir: ${env:PWD}/output/${fed.type}/${now:%Y-%m-%d_%H-%M-%S}
 
