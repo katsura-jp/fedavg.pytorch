@@ -1,3 +1,22 @@
 defaults:
-  model: mlp
-  fed:
+  - model: mlp
+  - fed: fedavg
+  - optim: sgd
+
+n_round: 5
+E: 5
+K: 100
+C: 0.1
+B: 50
+
+root: ${env:PWD}
+savedir: ${env:PWD}/output/${fed.type}/${now:%Y-%m-%d_%H-%M-%S}
+
+hydra:
+  run:
+    dir: ${env:PWD}/output/${fed.type}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    # Output directory for sweep runs
+    dir: ${env:PWD}/output/${fed.type}/${now:%Y-%m-%d_%H-%M-%S}/${hydra.job.name}
+    # Output sub directory for sweep runs.
+    subdir: ${hydra.job.num}_${hydra.job.id}
