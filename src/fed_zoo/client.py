@@ -28,7 +28,7 @@ class FedAvgClient(Client):
         for i in range(local_epoch):
             for img, target in self.dataloader:
                 img = img.to(self.device)
-                target = target(self.device)
+                target = target.to(self.device)
                 optimizer.zero_grad()
                 logits = self.model(img)
                 loss = loss_fn(logits, target)
