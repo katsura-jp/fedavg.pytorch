@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     libopencv-dev \
     build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
-    wget ibffi-dev && \
+    wget libffi-dev && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 ARG UID
