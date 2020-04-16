@@ -3,6 +3,8 @@ defaults:
   - fed: fedavg
   - optim: sgd
 
+device: 'cuda:0'
+
 n_round: 5
 E: 5
 K: 100

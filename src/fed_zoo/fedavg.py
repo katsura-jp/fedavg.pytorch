@@ -21,6 +21,7 @@ class FedAvg(FedBase):
                  fraction=1,
                  local_epoch=1,
                  iid=False,
+                 device="cpu",
                  writer=None):
         self.optimizer = optimizer
         self.optimizer_args = optimizer_args
@@ -40,7 +41,7 @@ class FedAvg(FedBase):
         ]
 
         self.clients = [
-            Client(k, local_dataloaders[k]) for k in range(num_clients)
+            Client(k, local_dataloaders[k], device) for k in range(num_clients)
         ]
         self.total_data_size = sum([len(client) for client in self.clients])
         self.aggregation_weights = [
@@ -50,7 +51,7 @@ class FedAvg(FedBase):
         test_dataloader = DataLoader(test_dataset,
                                      num_workers=0,
                                      batch_size=batchsize)
-        self.center_server = CenterServer(model, test_dataloader)
+        self.center_server = CenterServer(model, test_dataloader, device)
 
         self.loss_fn = CrossEntropyLoss()
 

@@ -31,6 +31,7 @@ def main(cfg: DictConfig):
                                         fraction=cfg.C,
                                         local_epoch=cfg.E,
                                         iid=cfg.iid,
+                                        device=cfg.device,
                                         writer=writer)
 
     federater.fit(cfg.n_round)

@@ -5,9 +5,10 @@ import torch
 
 
 class CenterServer:
-    def __init__(self, model, dataloader):
+    def __init__(self, model, dataloader, device="cpu"):
         self.model = model
         self.dataloader = dataloader
+        self.device = device
 
     def aggregation(self):
         raise NotImplementedError
@@ -20,8 +21,8 @@ class CenterServer:
 
 
 class FedAvgCenterServer(CenterServer):
-    def __init__(self, model, dataloader):
-        super().__init__(model, dataloader)
+    def __init__(self, model, dataloader, device="cpu"):
+        super().__init__(model, dataloader, device)
 
     def aggregation(self, clients, aggregation_weights):
         update_state = OrderedDict()
@@ -39,16 +40,20 @@ class FedAvgCenterServer(CenterServer):
         self.model.load_state_dict(update_state)
 
     def validation(self, loss_fn):
+        self.model.to(self.device)
         self.model.eval()
         test_loss = 0
         correct = 0
         with torch.no_grad():
             for img, target in self.dataloader:
+                img = img.to(self.device)
+                target = target.to(self.device)
                 logits = self.model(img)
                 test_loss += loss_fn(logits, target).item()
                 pred = logits.argmax(dim=1, keepdim=True)
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
+        self.model.to("cpu")
         test_loss = test_loss / len(self.dataloader)
         accuracy = 100. * correct / len(self.dataloader.dataset)
 
