@@ -12,7 +12,7 @@ A PyTorch implementation of "Communication-Efficient Learning of Deep Networks f
 
 the number of rounds of communication necessary to achieve a test-set accuracy of 99%.
 
-original used SGD, but our experiments used SGD with momentum(0.9) with weight decay(0.00001).
+original used SGD, but our experiments used SGD with momentum(0.9) and weight decay(0.00001).
 
 | C    | B=inf(original) | B=inf(original) | B=10(original) | B=10(our)    |
 | ---- | --------------- | --------------- | -------------- | ------------ |
