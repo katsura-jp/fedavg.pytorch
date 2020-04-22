@@ -70,7 +70,7 @@ $ python train.py n_round=100 C=0.3
 ```
 
 
-## TODOs
+## TODO
 - [x] GPU training
 - [ ] MultiProcessing Training
 - [ ] add FedSGD
