@@ -8,11 +8,27 @@ A PyTorch implementation of "Communication-Efficient Learning of Deep Networks f
 
 
 
+#### MLP(Non-IID), E=1
+
+the number of rounds of communication necessary to achieve a test-set accuracy of 97%.
+
+original used SGD, but our experiments used SGD with momentum(0.9) and weight decay(0.00001). And our max epoch is 1000.
+
+| C    | B=inf(original) | B=inf(our)   | B=10(original) | B=10(our)    |
+| ---- | --------------- | ------------ | -------------- | ------------ |
+| 0.0  | 4278            | not prepared | 3275           | -            |
+| 0.1  | 1796            | not prepared | 664            | -            |
+| 0.2  | 1528            | not prepared | 619            | not prepared |
+| 0.5  | -               | not prepared | 443            | 254          |
+| 0.9  | -               | not prepared | 380            | 154          |
+
+![FedAvg_MLP_Non_IID_MNIST](./data/readme/FedAvg_MLP_Non_IID_MNIST.png)
+
 #### CNN(Non-IID), E=5
 
 the number of rounds of communication necessary to achieve a test-set accuracy of 99%.
 
-original used SGD, but our experiments used SGD with momentum(0.9) and weight decay(0.00001).
+original used SGD, but our experiments used SGD with momentum(0.9) and weight decay(0.00001). And our max epoch is 1000.
 
 | C    | B=inf(original) | B=inf(our)   | B=10(original) | B=10(our)    |
 | ---- | --------------- | ------------ | -------------- | ------------ |
