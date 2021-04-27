@@ -73,10 +73,15 @@ class FedAvg(FedBase):
         self.send_model()
         n_sample = max(int(self.fraction * self.num_clients), 1)
         sample_set = np.random.randint(0, self.num_clients, n_sample)
+        
+        selected_clients = []
+        selected_total_size = 0
         for k in iter(sample_set):
             self.clients[k].client_update(self.optimizer, self.optimizer_args,
                                           self.local_epoch, self.loss_fn)
-        self.center_server.aggregation(self.clients, self.aggregation_weights)
+            selected_clients.append(self.clients[k])
+            selected_total_size += len(self.clients[k])
+        self.center_server.aggregation(selected_clients, [len(client)/ selected_total_size for client in selected_clients])
 
     def send_model(self):
         for client in self.clients:
